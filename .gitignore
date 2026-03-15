@@ -1,0 +1,18 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Environments
+venv/
+env/
+.env
+
+# Streamlit local config
+.streamlit/config.toml
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Optional: Ignore local logs if you only want to commit final experiment data
+# debate_log.json
