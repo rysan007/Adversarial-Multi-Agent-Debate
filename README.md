@@ -2,7 +2,7 @@
 
 This repository contains the code and artifacts for an LLM Debate pipeline with an LLM judge, exploring whether structured adversarial debate improves reasoning over single-agent baselines.
 
-## 🚀 Setup & Installation
+##  Setup & Installation
 
 **1. Clone the repository:**
 ```bash
@@ -18,14 +18,14 @@ pip install -r requirements.txt
 **3. Configure API Keys:**
 Open `config.json` and ensure your `api_base` and `model_name` are set. You will input your API key directly through the Streamlit UI or configure it in your environment variables.
 
-## 💻 Running the Application
+##  Running the Application
 
 To launch the interactive Debate UI and Batch Processing tool:
 ```bash
 streamlit run app.py
 ```
 
-## 📊 Reproducing the Experiments
+##  Reproducing the Experiments
 
 [cite_start]This repository includes scripts to reproduce all baseline and debate experiments[cite: 56].
 
