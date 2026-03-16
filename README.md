@@ -1,4 +1,4 @@
-# ⚖️ Adversarial Multi-Agent Debate
+#  Adversarial Multi-Agent Debate
 
 This repository contains the code and artifacts for an LLM Debate pipeline with an LLM judge, exploring whether structured adversarial debate improves reasoning over single-agent baselines.
 
