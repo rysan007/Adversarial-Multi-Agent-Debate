@@ -36,7 +36,7 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
    * To run the baselines: `python baselines.py`
      * Enter path to your JSON/JSONL dataset (e.g., dataset.json): strategyQA_train.json
    * To evaluate logs programmatically: `python evaluate.py` 
-   * To view the visual analytics:** Load `Debate Analytics.jsx` or `Baseline Analytics.jsx` into a React environment (like Vite or CodeSandbox) and upload your generated JSON logs to view the dashboards.
+   * To view the visual analytics: Load `Debate Analytics.jsx` or `Baseline Analytics.jsx` into a React environment (like Vite or CodeSandbox) and upload your generated JSON logs to view the dashboards.
 
 ### Visual Analytics Dashboards 
 This repository includes two React-based visualizers (DebateViewer.jsx and BaselineAnalyticsViewer.jsx) to perform quantitative and qualitative analysis on the batch_debate_log.json and baseline_log.json files without reading raw JSON. They can be run via Vite or viewed in any React-compatible sandbox. 
