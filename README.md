@@ -20,8 +20,8 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
 
 ### Installation & Setup 
 1. Clone the repository and install dependencies: 
-   * `git clone` 
-   * `cd` 
+   * `git clone https://github.com/rysan007/Adversarial-Multi-Agent-Debate/` 
+   * `cd to_repo_folder` 
    * `pip install -r requirements.txt` 
 2. Configure your Local LLM (LM Studio): 
    * Load your desired model (e.g., qwen/qwen3.5-9b). 
