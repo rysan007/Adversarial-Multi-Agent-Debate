@@ -148,4 +148,6 @@ Designing prompts for local, small models required significant iteration to prev
 === EXAMPLE FORMAT TO FOLLOW EXPLICITLY === 
 The sky is blue because of Rayleigh scattering affecting sunlight in the atmosphere. When sunlight enters the Earth's atmosphere, gases and particles scatter the shorter blue wavelengths more than other colors, making the sky appear blue to the human eye. 
 CONCLUSION: Rayleigh scattering. === END OF EXAMPLE === """
+
+NOTE: Formatting for app.py and this README were done with assistance from Gemini Pro and CoPilot.  Coding assistance for backend work was assisted with CoPilot and Qwen3.5 35B.
 </details>
