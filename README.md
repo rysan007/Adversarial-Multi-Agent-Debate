@@ -27,7 +27,7 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
    * `pip install -r requirements.txt` 
 2. Configure your Local LLM (LM Studio): 
    * Load your desired model (e.g., qwen/qwen3.5-9b). 
-   * Ensure Context Length is set to at least 8192. 
+   * Ensure Context Length is set to at least 16000 (for this experiment). 
    * Start the Local Server (default: http://localhost:1234/v1). 
    * Modify config.json to match your model name, target API, and API key. 
 3. Run the Pipeline: 
