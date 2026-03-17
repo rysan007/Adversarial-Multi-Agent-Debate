@@ -29,7 +29,7 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
    * Load your desired model (e.g., qwen/qwen3.5-9b). 
    * Ensure Context Length is set to at least 8192. 
    * Start the Local Server (default: http://localhost:1234/v1). 
-   * Modify config.json to match your model name and target API. 
+   * Modify config.json to match your model name, target API, and API key. 
 3. Run the Pipeline: 
    * To run the multi-agent debate: `streamlit run app.py` 
    * To run the baselines: `python baselines.py` 
@@ -66,6 +66,8 @@ This repository includes two React-based visualizers (DebateViewer.jsx and Basel
 * **3. Multi-Agent Debate:** Two models debate for 3 rounds, judged by a 3-member LLM jury. 
 
 **Results** Through the automated React Evaluation Suite, we analyzed the generated logs (baseline_log.json and batch_debate_log.json). 
+* 185 baseline questions
+* 108 debate questions
 * Baseline (Direct QA): 71% accuracy 
 * Baseline (Self-consistency): 73% accuracy 
 * Debate (3 rebuttals allowed, 3 judges): 81% accuracy 
