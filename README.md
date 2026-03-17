@@ -32,9 +32,11 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
    * Modify config.json to match your model name, target API, and API key. 
 3. Run the Pipeline: 
    * To run the multi-agent debate: `streamlit run app.py`
-     * Requires strategyQA_train.json 
+     * Requires strategyQA_train.json
+     * Prints batch_debate_log.json
    * To run the baselines: `python baselines.py`
      * Enter path to your JSON/JSONL dataset (e.g., dataset.json): strategyQA_train.json
+     * Prints baseline_log.json
    * To evaluate logs programmatically: `python evaluate.py` 
    * To view the visual analytics: Load `Debate Analytics.jsx` or `Baseline Analytics.jsx` into a React environment (like Vite or CodeSandbox) and upload your generated JSON logs to view the dashboards.
 
