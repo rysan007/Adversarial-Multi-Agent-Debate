@@ -56,7 +56,8 @@ This repository includes two React-based visualizers (DebateViewer.jsx and Basel
 
 **Debate Protocol** The protocol spans three rounds: 
 * **Round 0 (Opening):** Both agents independently analyze the question and state their core arguments using hidden `<thinking>` blocks followed by public `<argument>` blocks. 
-* **Round 1 & 2 (Rebuttals):** Agents gain access to the opponent's previous argument. They are prompted to actively identify logical flaws, rebut them with counter-evidence, and reinforce their own stance. 
+* **Round 1 & 2 (Rebuttals):** Agents gain access to the opponent's previous argument. They are prompted to actively identify logical flaws, rebut them with counter-evidence, and reinforce their own stance.
+* If both Debaters agree, or agree for two consecutive rounds, further debate will be skipped, and will be judged.
 
 **Model Choices & Configuration** 
 * **Model:** qwen/qwen3.5-9b (run locally via LM Studio). This model was chosen as it represents a highly capable, yet small model that can run locally and follow instructions properply. 
