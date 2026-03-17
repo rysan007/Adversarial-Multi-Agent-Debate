@@ -4,13 +4,15 @@ import re
 import os
 import concurrent.futures
 from collections import Counter
-from agents import BaseAgent, DebateOrchestrator
+from agents import BaseAgent
+from orchestrator import DebateOrchestrator
 from prompts import PROMPT_A_PHASE_1, PROMPT_B_PHASE_1, PROMPT_A_PHASE_2, PROMPT_B_PHASE_2, PROMPT_JUDGE
 
 # --- 0. Configuration Management ---
 CONFIG_FILE = "config.json"
 DEFAULT_CONFIG = {
     "api_base": "https://openrouter.ai/api/v1",
+    "api_key": "",
     "model_name": "qwen/qwen3.5-9b",
     "temperature": 0.7,
     "max_rounds": 3,
@@ -101,8 +103,7 @@ def append_to_log(filename, new_record):
 def run_headless_debate(question, ground_truth, config_params):
     agent_a = BaseAgent("Debater A", PROMPT_A_PHASE_1, model_name=config_params["model_name"], api_base=config_params["api_base"], api_key=config_params.get("api_key"))
     agent_b = BaseAgent("Debater B", PROMPT_B_PHASE_1, model_name=config_params["model_name"], api_base=config_params["api_base"], api_key=config_params.get("api_key"))
-    orchestrator = DebateOrchestrator(agent_a, agent_b, None, question, ground_truth, max_rounds=config_params["max_rounds"])
-    orchestrator.transcript = [] 
+    orchestrator = DebateOrchestrator(agent_a, agent_b, question, ground_truth, max_rounds=config_params["max_rounds"])
     
     # Phase 1
     agent_a.add_context("user", f"Question: {question}\n\nPhase 1: Present your independent argument.")
@@ -168,12 +169,16 @@ st.title("⚖️ Adversarial Multi-Agent Debate")
 
 with st.sidebar:
     st.header("Pipeline Configuration")
-    api_base = st.text_input("API Base URL", value=CONFIG["api_base"])
-    api_key = st.text_input("API Key (Required for OpenRouter)", type="password", value="")
-    model_name = st.text_input("Model Name", value=CONFIG["model_name"])
-    max_rounds = st.slider("Max Debate Rounds (N)", min_value=3, max_value=7, value=CONFIG["max_rounds"])
-    temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=CONFIG["temperature"], step=0.1)
-    jury_size = st.number_input("Jury Size (Judges)", min_value=1, max_value=5, value=CONFIG["jury_size"])
+    api_base = st.text_input("API Base URL", value=CONFIG.get("api_base", "https://openrouter.ai/api/v1"))
+    
+    # Retrieve from config first, fallback to environment variable, then to empty
+    default_api_key = CONFIG.get("api_key", os.environ.get("OPENAI_API_KEY", ""))
+    api_key = st.text_input("API Key", type="password", value=default_api_key)
+    
+    model_name = st.text_input("Model Name", value=CONFIG.get("model_name", "qwen/qwen3.5-9b"))
+    max_rounds = st.slider("Max Debate Rounds (N)", min_value=3, max_value=7, value=CONFIG.get("max_rounds", 3))
+    temperature = st.slider("Temperature", min_value=0.0, max_value=1.0, value=CONFIG.get("temperature", 0.7), step=0.1)
+    jury_size = st.number_input("Jury Size (Judges)", min_value=1, max_value=5, value=CONFIG.get("jury_size", 3))
     max_tokens_input = st.number_input("Max Tokens (0 for unlimited)", min_value=0, max_value=32000, value=CONFIG.get("max_tokens", 0))
 
 max_tokens = max_tokens_input if max_tokens_input > 0 else None
@@ -194,8 +199,7 @@ with tab1:
     if st.button("Start Debate Pipeline", type="primary"):
         agent_a = BaseAgent("Debater A", PROMPT_A_PHASE_1, model_name=model_name, api_base=api_base, api_key=api_key)
         agent_b = BaseAgent("Debater B", PROMPT_B_PHASE_1, model_name=model_name, api_base=api_base, api_key=api_key)
-        orchestrator = DebateOrchestrator(agent_a, agent_b, None, question, ground_truth, max_rounds=max_rounds)
-        orchestrator.transcript = []
+        orchestrator = DebateOrchestrator(agent_a, agent_b, question, ground_truth, max_rounds=max_rounds)
         
         # --- PHASE 1 ---
         st.markdown("---")

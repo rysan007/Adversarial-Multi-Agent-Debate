@@ -17,7 +17,8 @@ else:
 # Extract configurations 
 API_BASE = CONFIG.get("api_base", "http://localhost:1234/v1")
 MODEL_NAME = CONFIG.get("model_name", "local-model")
-API_KEY = os.environ.get("OPENAI_API_KEY", "dummy-key-for-local")
+# Get api_key primarily from CONFIG, fallback to env var
+API_KEY = CONFIG.get("api_key", os.environ.get("OPENAI_API_KEY", "dummy-key-for-local"))
 TEMPERATURE = CONFIG.get("temperature", 0.7)
 
 max_tokens_input = CONFIG.get("max_tokens", 0)
