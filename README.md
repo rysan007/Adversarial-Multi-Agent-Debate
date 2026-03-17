@@ -31,7 +31,8 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
    * Start the Local Server (default: http://localhost:1234/v1). 
    * Modify config.json to match your model name, target API, and API key. 
 3. Run the Pipeline: 
-   * To run the multi-agent debate: `streamlit run app.py` 
+   * To run the multi-agent debate: `streamlit run app.py`
+     * Requires strategyQA_train.json 
    * To run the baselines: `python baselines.py`
      * Enter path to your JSON/JSONL dataset (e.g., dataset.json): strategyQA_train.json
    * To evaluate logs programmatically: `python evaluate.py` 
