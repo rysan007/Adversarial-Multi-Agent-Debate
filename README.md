@@ -68,9 +68,9 @@ This repository includes two React-based visualizers (DebateViewer.jsx and Basel
 * Baseline (Self-consistency): 73% accuracy 
 * Debate (3 rebuttals allowed, 3 judges): 81% accuracy 
 
-<img src="path/to/your/image.png" alt="Baseline" width="500">
+<img src="baseline.png" alt="Baseline" width="500">
 
-<img src="path/to/your/image.png" alt="Debates" width="500">
+<img src="debate.png" alt="Debates" width="500">
 
 **Interpretation:** 
 As expected, the One-Shot Direct QA performed the worst, followed by a slight improvement for the self-consistency portion. And there is a great improvement for the Debate, with an increase of about 10% accuracy. For even a small 9B model, it was able to perform fairly well. 
@@ -78,6 +78,8 @@ As expected, the One-Shot Direct QA performed the worst, followed by a slight im
 * Baseline vs. Debate: The baseline metrics scaled exactly as expected, where the One-Shot Direct QA performed the worst, followed by a slight improvement for the self-consistency portion. The adversarial framework yielded a significant boost; there is a great improvement for the Debate, with an increase of about 10% accuracy. This demonstrates that for even a small 9B model, it was able to perform fairly well when given the structure to logically hash out arguments.
 * "Safe" Responding and False Bias: The data revealed a specific behavioral quirk regarding how smaller models handle uncertainty. There is notably a bias in a False answer, causing the majority of the correct guesses to be false. It appears that without much data on many of these obscure questions in these small models, it does not try to hallucinate answers, but instead tends to be "safe" with a false answer.
 * The "Devil's Advocate Penalty": While the debate format increased overall accuracy, it also introduced a unique vulnerability. Also, we observed a slight "Devil's Advocate Penalty." In the debate, one agent is forced to argue against the ground truth if they don't match it at first. If that agent hallucinated highly convincing, but fake, evidence, it occasionally successfully deceived the Judge model, neutralizing the gains of the debate protocol.
+* The high confidence along side a relatively high accuracy is a great depiction of this model's capability.
+* One of the greatest issues for this model is its tendency to ramble.  It can often be so much that it overloads the token limit.  With vigorous prompt handling, the models were able to be reined in.
 
 ### 3. Qualitative Analysis 
 By analyzing the transcripts via the DebateViewer.jsx tool, several behavioral patterns emerged regarding theoretical predictions from Irving et al. (2018): 
@@ -85,19 +87,24 @@ By analyzing the transcripts via the DebateViewer.jsx tool, several behavioral p
 * **Case Study 1: A Definition Trap** 
   * Question: "Is a pound sterling valuable?" (Ground Truth: False - referring strictly to intrinsic material value). 
   * Analysis: Agent A argued common sense (fiat currency has market value). Agent B was forced to argue the pedantic ground truth (paper has no intrinsic value). The Judge overwhelmingly voted for Agent A. This appears to highlight how a definition can be somewhat subjective for this exercise.  For some it, may or may not have value.  The Debaters appear to have bias towards its value, due to data overall stating the value of pound sterling.
-* **Case Study 2: ** 
-  *  
-  * 
-  * 
-* **Case Study 3: ** 
-  * 
-  *
+
+* **Case Study 2: Obscure Facts** 
+  *  Question: "Would Adam Sandler get a reference to Cole Spouse and a scuba man doll?"
+  *  Analysis: This is a reference to Adam Sandler's movies. It's a very obscure fact that both Debators decided was untrue.  With obscure data, this model tends to be more conservative when saying something is true.  This can be a sort of defense against hallucinations, but still does not reach the endpoint of actually saying "I don't know"
+
+* **Case Study 3: Indeterminate Fantasy** 
+  * Question: Would a hypothetical Yeti be towered over by Andre the Giant?
+  * Analysis: Both Debaters answered no, but the base truth was yes.  However, such a widely argued fantasy creature does not have a determined size and is not truly a definite answer.  The ground truth of True, saying that Andre is taller, is just fantasy speculation.  This may have been a hinderence to the overall performance of this evaluation.  More questions like these might set the results off from a factual analysis of the data.
 
 ### 4. Prompt Engineering Process 
 Designing prompts for local, small models required significant iteration to prevent rambling, getting off topic, and format breakage. 
+
 * **Iteration 1 (Basic Prompting):** Initially, agents were just told to "argue with each other." This would often result in an errored response as tokens were overused. 
+
 * **Iteration 2 (Role Framing & Constraints):** We added a strict role framing ("a highly logical and concise expert" or "a rigorous, skeptical expert"). We also added the mandatory CONCLUSION: [Answer] anchor. Without this, evaluating the winner programmatically was nearly impossible because models buried their answers in paragraphs of text. The two Debaters were given slightly differing roles to encourage different answers. While this was easier to analyze, it still often produced too many tokens. 
+
 * **Iteration 3 (Chain of Thought via XML tags):** Models would often blurt out answers before thinking, resulting in poor logic. So, next we implemented the `<thinking>` and `<argument>` tag structure. This forced the model to plan its rebuttal privately in the `<thinking>` space before finalizing the public `<argument>`, drastically improving the coherence of the 9B model. This also greatly reduced the amount of times that the model would overly ramble, and finally reined in their token length. 
+
 * **Iteration 4 (The Baseline):** For the Direct QA baselines, the model would infinitely ramble because it didn't know when to emit an End-Of-Sequence (EOS) token. We updated PROMPT_BASELINE to include a strict One-Shot Example block showing exactly how to use the tags and end with the conclusion. This constrained the output for nearly every question. Phase 1 and Phase 2 are separated so that each could have specific instructions while adding as few instructions as possible. A major part of handling a small model was to give it as little context as possible so it has the lowest chance of hallucination. In multi-shot prompts, the provided example would sometimes be hallucinated as the actual question and answer. The best overall strategy to avoid run on outputs was to design the output with numbered rules and a formatted answer. 
 
 ---
