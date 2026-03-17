@@ -48,7 +48,7 @@ This repository includes two React-based visualizers (DebateViewer.jsx and Basel
 * **1. Debater A:** Poses first argument. After the initial argument, will debate with the other debator. 
 * **2. Debater B:** Poses second argument. If this is a disagreement with the first debator, a debate will ensue. 
 * **3. The Orchestrator:** A Python controller that manages state, enforces round limits, and passes message histories between agents. 
-* **4. The Judge (Jury Panel):** Evaluates the final debate transcript, provides a Chain-of-Thought (CoT) analysis, extracts the strongest/weakest points, outputs a final Boolean verdict, and assigns a confidence score. To prevent single judge bias, a "jury" of 3 independent judge inferences is run, and the final answer is determined via majority consensus. [cite: 33, 34]
+* **4. The Judge (Jury Panel):** Evaluates the final debate transcript, provides a Chain-of-Thought (CoT) analysis, extracts the strongest/weakest points, outputs a final Boolean verdict, and assigns a confidence score. To prevent single judge bias, a "jury" of 3 independent judge inferences is run, and the final answer is determined via majority consensus.
 
 **Debate Protocol** The protocol spans three rounds: 
 * **Round 0 (Opening):** Both agents independently analyze the question and state their core arguments using hidden `<thinking>` blocks followed by public `<argument>` blocks. 
