@@ -17,6 +17,8 @@ This repository contains a fully modular, multi-agent LLM debate pipeline design
 | `config.json` | Configuration file for hyperparameters (API base, model, temperature, etc.). |
 | `requirements.txt` | Python dependencies. |
 | `Debate Analytics.jsx` & `Baseline Analytics.jsx` | React-based visual analytics dashboards for evaluating the generated JSON logs. |
+| `baseline_log.json` | A run of at least 100 baseline questions.  One one-shot and a self-consistency run. |
+| `batch_debate_log.json` | A run of at least 100 debate questions.  3 rounds and judged by 3 judges. |
 
 ### Installation & Setup 
 1. Clone the repository and install dependencies: 
@@ -80,9 +82,10 @@ As expected, the One-Shot Direct QA performed the worst, followed by a slight im
 * The "Devil's Advocate Penalty": While the debate format increased overall accuracy, it also introduced a unique vulnerability. Also, we observed a slight "Devil's Advocate Penalty." In the debate, one agent is forced to argue against the ground truth if they don't match it at first. If that agent hallucinated highly convincing, but fake, evidence, it occasionally successfully deceived the Judge model, neutralizing the gains of the debate protocol.
 * The high confidence along side a relatively high accuracy is a great depiction of this model's capability.
 * One of the greatest issues for this model is its tendency to ramble.  It can often be so much that it overloads the token limit.  With vigorous prompt handling, the models were able to be reined in.
+* The inclusion of Judges appeared to greatly increase the accuracy.  They would often come to 2/3 agreement, suggesting, that there was often a one off out of three judgings.  Considering the accuracy, this was an effective means of culling off answers that do not stand the test of fact checking.
 
 ### 3. Qualitative Analysis 
-By analyzing the transcripts via the DebateViewer.jsx tool, several behavioral patterns emerged regarding theoretical predictions from Irving et al. (2018): 
+By analyzing the transcripts via the analytics tool, several behavioral patterns emerged regarding theoretical predictions from Irving et al. (2018): 
 
 * **Case Study 1: A Definition Trap** 
   * Question: "Is a pound sterling valuable?" (Ground Truth: False - referring strictly to intrinsic material value). 
