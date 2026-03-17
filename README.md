@@ -68,8 +68,16 @@ This repository includes two React-based visualizers (DebateViewer.jsx and Basel
 * Baseline (Self-consistency): 73% accuracy 
 * Debate (3 rebuttals allowed, 3 judges): 81% accuracy 
 
+<img src="path/to/your/image.png" alt="Baseline" width="500">
+
+<img src="path/to/your/image.png" alt="Debates" width="500">
+
 **Interpretation:** 
-As expected, the One-Shot Direct QA performed the worst, followed by a slight improvement for the self-consistency portion. And there is a great improvement for the Debate, with an increase of about 10% accuracy. For even a small 9B model, it was able to perform fairly well. There is notably a bias in a False answer, causing the majority of the correct guesses to be false. It appears that without much data on many of these obscure questions in these small models, it does not try to hallucinate answers, but instead tends to be "safe" with a false answer. Also, we observed a slight "Devil's Advocate Penalty." In the debate, one agent is forced to argue against the ground truth if they don't match it at first. If that agent hallucinated highly convincing, but fake, evidence, it occasionally successfully deceived the Judge model, neutralizing the gains of the debate protocol. 
+As expected, the One-Shot Direct QA performed the worst, followed by a slight improvement for the self-consistency portion. And there is a great improvement for the Debate, with an increase of about 10% accuracy. For even a small 9B model, it was able to perform fairly well. 
+
+* Baseline vs. Debate: The baseline metrics scaled exactly as expected, where the One-Shot Direct QA performed the worst, followed by a slight improvement for the self-consistency portion. The adversarial framework yielded a significant boost; there is a great improvement for the Debate, with an increase of about 10% accuracy. This demonstrates that for even a small 9B model, it was able to perform fairly well when given the structure to logically hash out arguments.
+* "Safe" Responding and False Bias: The data revealed a specific behavioral quirk regarding how smaller models handle uncertainty. There is notably a bias in a False answer, causing the majority of the correct guesses to be false. It appears that without much data on many of these obscure questions in these small models, it does not try to hallucinate answers, but instead tends to be "safe" with a false answer.
+* The "Devil's Advocate Penalty": While the debate format increased overall accuracy, it also introduced a unique vulnerability. Also, we observed a slight "Devil's Advocate Penalty." In the debate, one agent is forced to argue against the ground truth if they don't match it at first. If that agent hallucinated highly convincing, but fake, evidence, it occasionally successfully deceived the Judge model, neutralizing the gains of the debate protocol.
 
 ### 3. Qualitative Analysis 
 By analyzing the transcripts via the DebateViewer.jsx tool, several behavioral patterns emerged regarding theoretical predictions from Irving et al. (2018): 
